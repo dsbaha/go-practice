@@ -36,12 +36,24 @@ func CreatePopulatedGraph() (g *Graph, n []*Node) {
 	}
 
 	for i := 0; i < len(n)-1; i++ {
-		g.AddEdge(n[i], n[i+1])
+		g.wg.Add(1)
+		go func(i int){
+			defer g.wg.Done()
+			g.AddEdge(n[i], n[i+1])
+		}(i)
 	}
 
+	g.wg.Wait()
+
 	for i := 0; i < len(n); i++ {
-		g.AddEdge(n[0], n[i])
+		g.wg.Add(1)
+		go func(i int){
+			defer g.wg.Done()
+			g.AddEdge(n[0], n[i])
+		}(i)
 	}
+
+	g.wg.Wait()
 
 	return
 }
