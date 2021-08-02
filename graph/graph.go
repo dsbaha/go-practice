@@ -157,9 +157,6 @@ func (g *Graph) String() (ret string) {
 
 // Depth First Search DFS
 // Good for searching linked nodes at START point.
-func (g *Graph) DFS(start *Node) (ret []*Node) {
-	for _, v := range start.Edges {
-		ret = append(ret, v)
-	}
-	return
+func (g *Graph) DFS(start *Node) []*Node {
+	return start.Linked()
 }
