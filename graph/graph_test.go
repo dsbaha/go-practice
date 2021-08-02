@@ -46,7 +46,6 @@ func CreatePopulatedGraph() (g *Graph, n []*Node) {
 	return
 }
 
-
 func TestLinkedNodeTraversal(t *testing.T) {
 	_, nodes := CreatePopulatedGraph()
 

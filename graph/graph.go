@@ -1,6 +1,6 @@
 // basic practice graph data store in go.
 // generally, graphs have nodes and edges.
-// add vertex and add edge are generally needed.
+// add edge (links) and add nodes are generally needed.
 
 package graph
 
@@ -41,13 +41,6 @@ func NewGraph() *Graph {
 	return &Graph{
 		Nodes: make(map[int]*Node),
 	}
-}
-
-func (g *Graph) AddVertex(n *Node) {
-	g.mtx.Lock()         //Lock for Writing
-	defer g.mtx.Unlock() //Defer Unlock
-
-	g.Nodes[n.Key] = n
 }
 
 // Gets a Node in a Thread Safe Way
@@ -141,7 +134,7 @@ func (g *Graph) RemoveEdge(n1, n2 *Node) {
 	g.RemoveNode(v2)
 }
 
-// Rmove a node in a thread safe way.
+// Remove a node in a thread safe way.
 func (g *Graph) RemoveNode(n *Node) {
 	g.mtx.Lock()
 	defer g.mtx.Unlock()
@@ -149,6 +142,7 @@ func (g *Graph) RemoveNode(n *Node) {
 	delete(g.Nodes, n.Key)
 }
 
+// Return a string representation of the graph.
 func (g *Graph) String() (ret string) {
 	ret += "graph links\n"
 	for _, v := range g.Nodes {
@@ -161,6 +155,8 @@ func (g *Graph) String() (ret string) {
 	return
 }
 
+// Depth First Search DFS
+// Good for searching linked nodes at START point.
 func (g *Graph) DFS(start *Node) (ret []*Node) {
 	for _, v := range start.Edges {
 		ret = append(ret, v)
