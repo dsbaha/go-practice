@@ -75,3 +75,14 @@ func TestGraphWithDFS(t *testing.T) {
 		t.Error("invalid number of nodes")
 	}
 }
+
+func BenchmarkFullGraph(b *testing.B) {
+	g, _ := CreatePopulatedGraph()
+
+	for i := 0; i < b.N; i++ {
+		ret := g.String()
+		if ret == "" {
+			b.Error("invalid graph")
+		}
+	}
+}
